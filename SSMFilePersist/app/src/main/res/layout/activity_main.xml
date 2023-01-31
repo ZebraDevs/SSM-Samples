@@ -82,14 +82,15 @@
                 android:text="Insert File" />
 
             <Button
-                android:id="@+id/btn_query"
+                android:id="@+id/btn_insert_fileProvider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
                 android:layout_weight="0.5"
-                android:onClick="onClickQueryFile"
-                android:text="Query File" />
+                android:onClick="onClickInsertFileProvider"
+                android:text="Insert File With FileProvider" />
+
 
         </LinearLayout>
 
@@ -99,6 +100,16 @@
             android:orientation="horizontal"
             android:layout_marginRight="3dp"
             android:layout_marginLeft="3dp">
+
+            <Button
+                android:id="@+id/btn_query"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="0.5"
+                android:onClick="onClickQueryFile"
+                android:text="Query File" />
 
             <Button
                 android:id="@+id/btn_update"

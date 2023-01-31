@@ -28,7 +28,7 @@
         </activity>
 
         <receiver android:name=".ConfigFileReceiver"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.zebra.configFile.action.notify" />
             </intent-filter>
@@ -36,7 +36,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.zebra.ssmconfigtest.provider"
+            android:authorities="com.zebra.ssmfilepersist.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <!-- Specify the directories the FileProvider can generate content URIs for. -->

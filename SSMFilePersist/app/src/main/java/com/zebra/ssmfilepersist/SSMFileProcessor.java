@@ -3,6 +3,7 @@ package com.zebra.ssmfilepersist;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -86,13 +88,14 @@ public class SSMFileProcessor extends AppCompatActivity {
                 resultView.setText("Query Result");
             } catch (Exception e) {
                 Log.e(TAG, "SSM Insert File - error: " + e.getMessage() + "\n\n");
+                Toast.makeText(mContext, "SSM Insert File - error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
             Log.i(TAG, "*********************************");
         }
     }
 
-    /*--------------------- (File insert API, used source path as file provider uri)Un-comment this for file provider use case --------------------*/
-    /*public void onClickInsertFile(View view) {
+    /*--------------------- (File insertion, using source path as file provider uri) --------------------*/
+    public void onClickInsertFileProvider(View mView) {
         String sourcePath = ((EditText)findViewById(R.id.et_sourcePath)).getText().toString();
         String targetPath = ((EditText)findViewById(R.id.et_targetPath)).getText().toString();
         Log.i(TAG, "targetPath "+  targetPath);
@@ -104,7 +107,7 @@ public class SSMFileProcessor extends AppCompatActivity {
         mContext.getApplicationContext().grantUriPermission("com.zebra.securestoragemanager", contentUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
         Log.i(TAG, "File Content Uri "+  contentUri);
 
-        Uri cpUriQuery = Uri.parse(AUTHORITY_FILE + mContext.getPackageName());
+        Uri cpUriQuery = Uri.parse(AUTHORITY_FILE +mContext.getPackageName());
         Log.i(TAG, "authority  "+  cpUriQuery.toString());
 
         try {
@@ -120,9 +123,10 @@ public class SSMFileProcessor extends AppCompatActivity {
             resultView.setText("Query Result");
         } catch(Exception e){
             Log.e(TAG, "SSM Insert File - error: " + e.getMessage() + "\n\n");
+            Toast.makeText(mContext, "SSM Insert File - error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         Log.i(TAG,"*********************************");
-    }*/
+    }
 
     /*-------------------- Query file from SSM --------------------------------*/
     @SuppressLint("Range")
@@ -151,7 +155,10 @@ public class SSMFileProcessor extends AppCompatActivity {
                     String crc = cursor.getString(cursor.getColumnIndex("secure_file_crc"));
                     strBuild.append("\n");
                     strBuild.append("URI - " + uriString).append("\n").append("FileName - " + fileName).append("\n").append("IS Directory - " + isDir)
-                            .append("\n").append("CRC - " + crc).append("\n").append("FileContent - ").append(readFile(mContext, uriString));
+                            .append("\n").append("CRC - " + crc).append("\n");
+                    if (!Boolean.parseBoolean(isDir.trim())) {
+                        strBuild.append("FileContent - ").append(readFile(mContext, uriString));
+                    }
                     Log.i(TAG, "File cursor " + strBuild);
                     strBuild.append("\n ----------------------").append("\n");
                     cursor.moveToNext();
